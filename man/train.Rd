@@ -8,6 +8,8 @@
 \alias{train_varmaMEWMA}
 \title{Train methods}
 \usage{
+train(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = 0.3)
+
 train_gruMCUSUM(data, lags = 1, k = 0.9)
 
 train_mrfMCUSUM(data, lags = 1, k = 0.9)

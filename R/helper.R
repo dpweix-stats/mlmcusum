@@ -41,7 +41,7 @@ calc_S <- function(tau, k, mu_tau, sigma_tau_inv) {
   C <- vector("numeric", N)
   C[1] <- sqrt(t(tau[1, ] - mu_tau) %*% sigma_tau_inv %*% (tau[1, ] - mu_tau))
   
-  if(!any(is.na(tau)) {
+  if(!any(is.na(tau))) {
     2:N |> 
       purrr::walk(
         \(x) {
@@ -214,7 +214,8 @@ scale_t <- function(ts, a = .01, b = 2) {
 #' Calculate Run Length
 #'
 #' Calculates the run length for a single instance of a method given a 
-#' plotting statistic and an upper limit.
+#' plotting statistic and an upper limit by comparing the total number
+#' of flagged observations to the total number of observations.
 #' 
 #'
 #' @param pstat The plotting statistic from a fault detection method.
@@ -226,4 +227,19 @@ get_run_length <- function(pstat, h) {
   numer <- length(pstat)
   
   ifelse(denom == 0, numer, numer/denom)
+}
+
+#' Calculate Run Length
+#'
+#' Calculates the run length for a single instance of a method given a 
+#' plotting statistic and an upper limit by returning the index of the
+#' first flagged observation.
+#' 
+#'
+#' @param pstat The plotting statistic from a fault detection method.
+#' @param h The upper in-control limit for this plotting statistic.
+#' @return Returns the run length.
+#' @export
+get_first_fault <- function(pstat, h) {
+  which(pstat > h)[1]
 }
