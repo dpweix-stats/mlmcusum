@@ -62,7 +62,7 @@ gen_dat_lin <- function(n_ic = 1500, n_oc = 500, phi = .8) {
 
 #' @rdname gen_dat_lin
 #' @export
-gen_dat_nlr <- function(fault, n_ic = 1500, n_oc = 500, phi = .8) {
+gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8) {
   # Create t
   t <- arima.sim(model = list(ar = phi), n = (n_ic + n_oc)) |> scale_t()
   
@@ -116,7 +116,7 @@ gen_dat_nlr <- function(fault, n_ic = 1500, n_oc = 500, phi = .8) {
 
 #' @rdname gen_dat_lin
 #' @export
-gen_dat_ltm <- function(fault, n_ic = 1500, n_oc = 500, phi = .8) {
+gen_dat_ltm <- function(n_ic = 1500, n_oc = 500, phi = .8) {
   # Create t
   t <- arima.sim(model = list(ar = c(.1, rep(0, 31), .8)), n = (n_ic+n_oc)) |> scale_t()
   

@@ -8,9 +8,9 @@
 \usage{
 gen_dat_lin(n_ic = 1500, n_oc = 500, phi = 0.8)
 
-gen_dat_nlr(fault, n_ic = 1500, n_oc = 500, phi = 0.8)
+gen_dat_nlr(n_ic = 1500, n_oc = 500, phi = 0.8)
 
-gen_dat_ltm(fault, n_ic = 1500, n_oc = 500, phi = 0.8)
+gen_dat_ltm(n_ic = 1500, n_oc = 500, phi = 0.8)
 }
 \arguments{
 \item{n_ic}{The number of observations which are in-control.}
