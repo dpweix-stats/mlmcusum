@@ -15,6 +15,13 @@ predict <- function(model, new_data) {
   # Constants
   l <- model$constants[2]
   
+  # Center and Scale
+  if(model$center_scale) {
+    new_data <-
+      purrr::pmap_dfc(list(new_data, model$mean_sd$mean, model$mean_sd$sd), \(x, y, z) (x-y)/z) |> 
+      as.matrix()
+  }
+  
   # Design and Prediction Matrices
   X <- create_X(new_data, lags = l)
   Y <- create_Y(new_data, lags = l)
@@ -29,6 +36,7 @@ predict <- function(model, new_data) {
   } else if(grepl("mrf", model$method)) {
     preds <- MultivariateRandomForest::single_tree_prediction(model$model, X, model$constants[3])
     colnames(preds) <- colnames(new_data)
+    
   # Predictions: VARMA
   } else if(grepl("varma", model$method)) {
     # Extract VAR(1) Model Info
@@ -66,12 +74,7 @@ predict <- function(model, new_data) {
     preds <- Y - residuals[-1, ]
     
   } else if(grepl("htsquare", model$method)) {
-    preds <- 
-      purrr::pmap_dfc(
-        list(new_data[-1, ], model$model$mean, model$model$sd), \(x, y, z) (x - y)/z) |> 
-      as.matrix()
-    
-    
+    preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))
   }
   
   

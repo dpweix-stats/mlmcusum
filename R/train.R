@@ -8,17 +8,28 @@
 #' @param lags The number of lags of each variable to be included in the design matrix.
 #' @param k A tuning parameter for the MCUSUM, large k results in shorter memory.
 #' @param r A tuning parameter for MEWMA, large r results in shorter memory.
+#' @param center_scale A logical, whether or not to center and scale data before modeling.
 #' @return A named list including the plotting statistic, trained model, residuals, and constants.
 #' @name train
 #' @rdname train
 #' @export
-train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3) {
+train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
+                  center_scale = TRUE) {
   # Constants
   method <- tolower(method)
   l <- ifelse(grepl("varma", method), 1, lags)
   p <- ncol(data)
+  mean_sd <- list(mean = colMeans(data),
+                  sd = purrr::map_dbl(data, \(x) sd(x)))
   
-  # Save Constant for MCUSUM or MEWMA
+  # Center and Scale
+  if(center_scale) {
+    data <- 
+      purrr::pmap_dfc(list(data, mean_sd$mean, mean_sd$sd), \(x, y, z) (x - y)/z) |> 
+      as.matrix()
+  }
+  
+  # Constant for MCUSUM or MEWMA
   if(grepl("mcusum", method)) {
     constants <- c(k, l, p)
     names(constants) <- c("k", "lags", "p")
@@ -59,13 +70,12 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3) {
     
     preds <- Y - fit$residuals
     colnames(preds) <- colnames(data)
+    
   # Methods: Hotelling's T Square
   } else if(grepl("htsquare", method)) {
-    fit <- list(mean = colMeans(data),
-                sd = purrr::map_dbl(data, \(x) sd(x)))
+    fit <- NA
     
-    preds <- purrr::pmap_dfc(list(data[-1, ], fit$mean, fit$sd), \(x, y, z) (x - y)/z) |> 
-      as.matrix()
+    preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))
   }
   
   
@@ -93,6 +103,8 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3) {
        model = fit,
        method = method, 
        residuals = Y - preds,
+       center_scale = center_scale,
+       mean_sd = mean_sd,
        mu_tau = mu_tau,
        sigma_tau_inv = sigma_tau_inv,
        constants = constants)
