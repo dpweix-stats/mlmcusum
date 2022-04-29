@@ -41,7 +41,7 @@ calc_S <- function(tau, k, mu_tau, sigma_tau_inv) {
   C <- vector("numeric", N)
   C[1] <- sqrt(t(tau[1, ] - mu_tau) %*% sigma_tau_inv %*% (tau[1, ] - mu_tau))
   
-  if(!any(is.na(tau)) {
+  if(!any(is.na(tau))) {
     2:N |> 
       purrr::walk(
         \(x) {
