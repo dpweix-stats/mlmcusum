@@ -6,23 +6,25 @@
 \alias{gen_dat_ltm}
 \title{Generate Sample Data}
 \usage{
-gen_dat_lin(fault, n_ic = 1500, n_oc = 500, phi = 0.8)
+gen_dat_lin(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 
-gen_dat_nlr(fault, n_ic = 1500, n_oc = 500, phi = 0.8)
+gen_dat_nlr(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 
-gen_dat_ltm(fault, n_ic = 1500, n_oc = 500, phi = 0.8)
+gen_dat_ltm(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 }
 \arguments{
-\item{fault}{A marker for which fault is introduced, "f1", "f2", or "f3".}
-
 \item{n_ic}{The number of observations which are in-control.}
 
 \item{n_oc}{The number of observations which are out-of-control, i.e. faulty.}
 
 \item{phi}{The strength of the autocorrelation in the base time series}
+
+\item{a_1}{Increase in variance of x2 for fault 1.}
+
+\item{a_2}{Increase in variance of x1, x2, and x3 for fault 3.}
 }
 \value{
-A dataframe of sample data for use in the simulation study.
+A list of data frames with no fault, fault 1, fault 2, and fault 3.
 }
 \description{
 Generates a three dimensional multivariate time series for use in the

@@ -8,6 +8,15 @@
 \alias{train_varmaMEWMA}
 \title{Train methods}
 \usage{
+train(
+  data,
+  method = "gruMCUSUM",
+  lags = 1,
+  k = 1.1,
+  r = 0.3,
+  center_scale = TRUE
+)
+
 train_gruMCUSUM(data, lags = 1, k = 0.9)
 
 train_mrfMCUSUM(data, lags = 1, k = 0.9)
@@ -24,6 +33,8 @@ train_varmaMEWMA(data, r = 0.3)
 \item{k}{A tuning parameter for the MCUSUM, large k results in shorter memory.}
 
 \item{r}{A tuning parameter for MEWMA, large r results in shorter memory.}
+
+\item{center_scale}{A logical, whether or not to center and scale data before modeling.}
 }
 \value{
 A named list including the plotting statistic, trained model, residuals, and constants.

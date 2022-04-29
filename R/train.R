@@ -8,11 +8,107 @@
 #' @param lags The number of lags of each variable to be included in the design matrix.
 #' @param k A tuning parameter for the MCUSUM, large k results in shorter memory.
 #' @param r A tuning parameter for MEWMA, large r results in shorter memory.
+#' @param center_scale A logical, whether or not to center and scale data before modeling.
 #' @return A named list including the plotting statistic, trained model, residuals, and constants.
 #' @name train
 #' @rdname train
-
-NULL
+#' @export
+train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
+                  center_scale = TRUE) {
+  # Constants
+  method <- tolower(method)
+  l <- ifelse(grepl("varma", method), 1, lags)
+  p <- ncol(data)
+  mean_sd <- list(mean = colMeans(data),
+                  sd = purrr::map_dbl(data, \(x) sd(x)))
+  
+  # Center and Scale
+  if(center_scale) {
+    data <- 
+      purrr::pmap_dfc(list(data, mean_sd$mean, mean_sd$sd), \(x, y, z) (x - y)/z) |> 
+      as.matrix()
+  }
+  
+  # Constant for MCUSUM or MEWMA
+  if(grepl("mcusum", method)) {
+    constants <- c(k, l, p)
+    names(constants) <- c("k", "lags", "p")
+  } else if(grepl("mewma", method)) {
+    constants <- c(r, l, p)
+    names(constants) <- c("r", "lags", "p")
+  } else if(grepl("htsquare", method)) {
+    constants <- c(0, l, p)
+    names(constants) <- c("NA", "lags", "p")
+  }
+  
+  # Design and Prediction Matrices
+  X <- create_X(data, lags = l)
+  Y <- create_Y(data, lags = l)
+  
+  # Methods: GRU
+  if(grepl("gru", method)) {
+    fit <- train_gru(X, Y, l) # python
+    
+    preds <- pred_gru(fit, X) # python
+    colnames(preds) <- colnames(data)
+    
+  # Methods: MRF
+  } else if(grepl("mrf", method)) {
+    fit <-
+      MultivariateRandomForest::build_single_tree(X, Y,
+                                                  m_feature = floor(sqrt(l*p)),
+                                                  min_leaf = 10,
+                                                  Inv_Cov_Y = solve(cov(Y)),
+                                                  Command = 2)
+    preds <- MultivariateRandomForest::single_tree_prediction(fit, X, p)
+    colnames(preds) <- colnames(data)
+  
+  # Methods: VARMA
+  } else if(grepl("varma", method)) {
+    fit <-
+      MTS::VAR(data, p = 1, include.mean = TRUE)
+    
+    preds <- Y - fit$residuals
+    colnames(preds) <- colnames(data)
+    
+  # Methods: Hotelling's T Square
+  } else if(grepl("htsquare", method)) {
+    fit <- NA
+    
+    preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))
+  }
+  
+  
+  # Get Tau
+  tau <- calc_tau(Y - preds)
+  mu_tau <- colMeans(tau)
+  sigma_tau_inv <- solve(cov(tau))
+  
+  # Calc Pstat
+  if(grepl("mcusum", method)) {
+    # MCUSUM
+    S <- calc_S(tau, constants[1], mu_tau, sigma_tau_inv)
+    pstat <- calc_PStat(S, sigma_tau_inv)
+  } else if(grepl("mewma", method)) {
+    # MEWMA
+    D <- calc_D(tau, mu_tau, sigma_tau_inv)
+    pstat <- calc_PStat_MEWMA(r, D, p)
+  } else if(grepl("htsquare", method)) {
+    # Hotelling's T^2
+    pstat <- calc_D(tau, mu_tau, sigma_tau_inv)
+  }
+  
+  # Return
+  list(pstat = pstat,
+       model = fit,
+       method = method, 
+       residuals = Y - preds,
+       center_scale = center_scale,
+       mean_sd = mean_sd,
+       mu_tau = mu_tau,
+       sigma_tau_inv = sigma_tau_inv,
+       constants = constants)
+}
 
 #' @rdname train
 #' @export

@@ -8,6 +8,8 @@
 \alias{predict_varmaMEWMA}
 \title{Apply Method}
 \usage{
+predict(model, new_data)
+
 predict_gruMCUSUM(model, new_data)
 
 predict_mrfMCUSUM(model, new_data)
