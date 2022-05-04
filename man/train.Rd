@@ -2,10 +2,6 @@
 % Please edit documentation in R/train.R
 \name{train}
 \alias{train}
-\alias{train_gruMCUSUM}
-\alias{train_mrfMCUSUM}
-\alias{train_varmaMCUSUM}
-\alias{train_varmaMEWMA}
 \title{Train methods}
 \usage{
 train(
@@ -16,17 +12,11 @@ train(
   r = 0.3,
   center_scale = TRUE
 )
-
-train_gruMCUSUM(data, lags = 1, k = 0.9)
-
-train_mrfMCUSUM(data, lags = 1, k = 0.9)
-
-train_varmaMCUSUM(data, k = 0.9)
-
-train_varmaMEWMA(data, r = 0.3)
 }
 \arguments{
 \item{data}{A multivariate time series in dataframe or matrix form.}
+
+\item{method}{An indicator of which model and fault detection method to use. Options are gruMCUSUM, mrfMCUSUM, varMCUSUM, varMEWMA, or htsquare.}
 
 \item{lags}{The number of lags of each variable to be included in the design matrix.}
 

@@ -243,5 +243,5 @@ get_run_length <- function(pstat, h) {
 get_first_fault <- function(pstat, h) {
   ret <- which(pstat > h)[1]
   
-  if(length(ret) == 0, length(pstat), ret)
+  ifelse(length(ret) == 0, length(pstat), ret)
 }
