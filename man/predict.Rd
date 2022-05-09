@@ -2,21 +2,9 @@
 % Please edit documentation in R/predict.R
 \name{predict}
 \alias{predict}
-\alias{predict_gruMCUSUM}
-\alias{predict_mrfMCUSUM}
-\alias{predict_varmaMCUSUM}
-\alias{predict_varmaMEWMA}
 \title{Apply Method}
 \usage{
 predict(model, new_data)
-
-predict_gruMCUSUM(model, new_data)
-
-predict_mrfMCUSUM(model, new_data)
-
-predict_varmaMCUSUM(model, new_data)
-
-predict_varmaMEWMA(model, new_data)
 }
 \arguments{
 \item{model}{Output from the train_gruMCUSUM function.}
