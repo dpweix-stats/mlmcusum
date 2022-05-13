@@ -100,7 +100,7 @@ gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8,
                      tibble::tibble(
                        x1 = t[index_oc] + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
-                       x3 = -1.5*t[index_oc]^3 + 3.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
+                       x3 = -2*t[index_oc]^3 + 4.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
     )
     
   dat_f3 <-
@@ -154,7 +154,7 @@ gen_dat_ltm <- function(n_ic = 1500, n_oc = 500, phi = .8,
                      tibble::tibble(
                        x1 = t[index_oc] + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
-                       x3 = -1.5*t[index_oc]^3 + 3.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
+                       x3 = -2*t[index_oc]^3 + 4.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
     )
     
   dat_f3 <- 
