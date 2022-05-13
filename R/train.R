@@ -18,7 +18,7 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
                   center_scale = TRUE) {
   # Constants
   method <- tolower(method)
-  l <- ifelse(grepl("varma", method), 1, lags)
+  l <- ifelse(grepl("var", method), 1, lags)
   p <- ncol(data)
   mean_sd <- list(mean = colMeans(data),
                   sd = purrr::map_dbl(data, \(x) sd(x)))
@@ -56,13 +56,13 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
   # Methods: MRF
   } else if(grepl("mrf", method)) {
     fit <-
-      build_mrf(X, Y, n_tree = 5, m_feature = floor(sqrt(l*p)), min_leaf = 10)
+      build_mrf(X, Y, n_tree = 5, m_feature = floor(sqrt(l*p)), min_leaf = ceiling(0.01*nrow(X)))
     
     preds <- fit$preds
     colnames(preds) <- colnames(data)
   
   # Methods: VARMA
-  } else if(grepl("varma", method)) {
+  } else if(grepl("var", method)) {
     fit <-
       MTS::VAR(data, p = 1, include.mean = TRUE)
     
@@ -175,6 +175,8 @@ build_mrf <- function (trainX, trainY, n_tree, m_feature, min_leaf) {
         purrr::walk(\(j) {
           Y_HAT[, j] <<- Y_HAT[, j] + Y_pred[, j]
         })
+      
+      print(paste0("Fit tree ", i))
       
       Single_Model
     })

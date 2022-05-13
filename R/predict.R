@@ -38,7 +38,7 @@ predict <- function(model, new_data) {
     colnames(preds) <- colnames(new_data)
     
     # Predictions: VARMA
-  } else if(grepl("varma", model$method)) {
+  } else if(grepl("var", model$method)) {
     # Extract VAR(1) Model Info
     Ph0 <- model$model$Ph0
     Phi <- model$model$Phi
