@@ -2,15 +2,32 @@
 % Please edit documentation in R/data_generation.R
 \name{gen_dat_lin}
 \alias{gen_dat_lin}
+\alias{gen_dat_ltl}
 \alias{gen_dat_nlr}
 \alias{gen_dat_ltm}
 \title{Generate Sample Data}
 \usage{
 gen_dat_lin(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 
+gen_dat_ltl(
+  n_ic = 1500,
+  n_oc = 500,
+  phi = 0.8,
+  sin_scale = 1.5,
+  a_1 = 3,
+  a_2 = 2
+)
+
 gen_dat_nlr(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 
-gen_dat_ltm(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
+gen_dat_ltm(
+  n_ic = 1500,
+  n_oc = 500,
+  phi = 0.8,
+  sin_scale = 1.5,
+  a_1 = 3,
+  a_2 = 2
+)
 }
 \arguments{
 \item{n_ic}{The number of observations which are in-control.}
@@ -22,6 +39,8 @@ gen_dat_ltm(n_ic = 1500, n_oc = 500, phi = 0.8, a_1 = 3, a_2 = 2)
 \item{a_1}{Increase in variance of x2 for fault 1.}
 
 \item{a_2}{Increase in variance of x1, x2, and x3 for fault 3.}
+
+\item{sin_scale}{The scale of the sin wave for long term dependency.}
 }
 \value{
 A list of data frames with no fault, fault 1, fault 2, and fault 3.
