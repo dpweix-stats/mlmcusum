@@ -56,7 +56,7 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
   # Methods: MRF
   } else if(grepl("mrf", method)) {
     fit <-
-      build_mrf(X, Y, n_tree = 5, m_feature = floor(sqrt(l*p)), min_leaf = ceiling(0.01*nrow(X)))
+      build_mrf(X, Y, n_tree = 10, m_feature = floor(sqrt(l*p)), min_leaf = ceiling(0.01*nrow(X)))
     
     preds <- fit$preds
     colnames(preds) <- colnames(data)
