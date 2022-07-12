@@ -69,15 +69,12 @@ gen_dat_lin <- function(n_ic = 1500, n_oc = 500, phi = .8,
 gen_dat_ltl <- function(n_ic = 1500, n_oc = 500, phi = .8, sin_scale = 1.5,
                         a_1 = 3, a_2 = 2) {
   
-  print("trigger ltl")
   # Create t
   t <- (arima.sim(model = list(ar = phi), n = (n_ic + n_oc)) +
                    rep(sin_scale*sin(seq(0, 2*pi, length.out = 51))[-1], (n_ic+n_oc)/50)) |> scale_t()
   
   index_ic <- 1:n_ic
   index_oc <- (n_ic+1):(n_ic+n_oc)
-  
-  print("generated t")
   
   # Generate Training Observations
   dat <-
