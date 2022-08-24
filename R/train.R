@@ -53,11 +53,9 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
     preds <- pred_gru(fit, X) # python
     colnames(preds) <- colnames(data)
 
-    print(c("GRU:", center_scale))
-
   # Methods: MRF
   } else if(grepl("mrf", method)) {
-    fit <- randomForestSRC::rfsrc(formula = as.formula(paste0("Multivar(", paste0(colnames(Y), collapse = ","), ") ~ .")),
+    fit <- randomForestSRC::rfsrc(formula = as.formula(paste0("Multivar(`", paste0(colnames(Y), collapse = "` , `"), "`) ~ .")),
                                   data = as.data.frame(cbind(Y, X)),
                                   ntree = 500,
                                   splitrule = "mahalanobis")
@@ -66,8 +64,6 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
     preds <- randomForestSRC::get.mv.predicted(fit)
     colnames(preds) <- colnames(data)
 
-    print(c("MRF:", center_scale))
-
   # Methods: VARMA
   } else if(grepl("var", method)) {
     fit <-
@@ -75,8 +71,6 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
 
     preds <- Y - fit$residuals
     colnames(preds) <- colnames(data)
-
-    print(c("VAR:", center_scale))
 
   # Methods: Hotelling's T Square
   } else if(grepl("htsquare", method)) {
