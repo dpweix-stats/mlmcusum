@@ -2,10 +2,9 @@
 % Please edit documentation in R/predict.R
 \name{predict_fd}
 \alias{predict_fd}
-\alias{predict_ml}
 \title{Apply Method}
 \usage{
-predict_ml(model, new_data)
+predict_fd(model, new_data)
 }
 \arguments{
 \item{model}{Output from the train_gruMCUSUM function.}

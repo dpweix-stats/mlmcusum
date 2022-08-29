@@ -58,7 +58,8 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
     fit <- randomForestSRC::rfsrc(formula = as.formula(paste0("Multivar(`", paste0(colnames(Y), collapse = "` , `"), "`) ~ .")),
                                   data = as.data.frame(cbind(Y, X)),
                                   ntree = 500,
-                                  splitrule = "mahalanobis")
+                                  splitrule = "mahalanobis",
+                                  samptype = "swr")
 
 
     preds <- randomForestSRC::get.mv.predicted(fit)
@@ -73,7 +74,7 @@ train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
     colnames(preds) <- colnames(data)
 
   # Methods: Hotelling's T Square
-  } else if(grepl("htsquare", method)) {
+  } else {
     fit <- NA
 
     preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))

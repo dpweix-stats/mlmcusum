@@ -11,7 +11,7 @@
 #' @name predict_fd
 #' @rdname predict_fd
 #' @export
-predict_ml <- function(model, new_data) {
+predict_fd <- function(model, new_data) {
 
   # Constants
   l <- model$constants[2]
@@ -74,7 +74,7 @@ predict_ml <- function(model, new_data) {
     # Predictions
     preds <- Y - residuals[-1, ]
 
-  } else if(grepl("htsquare", model$method)) {
+  } else {
     preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))
   }
 
