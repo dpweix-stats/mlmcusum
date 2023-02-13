@@ -7,7 +7,7 @@
 predict_fd(model, new_data)
 }
 \arguments{
-\item{model}{Output from the train_gruMCUSUM function.}
+\item{model}{Output from the train_fd function.}
 
 \item{new_data}{A multivariate time series in dataframe or matrix form.}
 }
@@ -15,7 +15,6 @@ predict_fd(model, new_data)
 A named list including the plotting statistic and residuals.
 }
 \description{
-Predicts values for new_data using the a trained GRU or MRF method. Also works
-for the resMCUSUM method from Bodnar et al (2017) which is based on a VARMA(1, 1)
-model. Returns the calculated residuals and the plotting statistic.
+Predicts the values of new data using the output from the train_fd
+function. Returns the calculated residuals and the plotting statistic.
 }

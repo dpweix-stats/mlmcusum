@@ -40,15 +40,19 @@ gen_dat_ltm(
 
 \item{a_2}{Increase in variance of x1, x2, and x3 for fault 3.}
 
-\item{sin_scale}{The scale of the sin wave for long term dependency.}
+\item{sin_scale}{The scale of the sine wave for non-stationarity.}
 }
 \value{
-A list of data frames with no fault, fault 1, fault 2, and fault 3.
+A list of four data frames where the first n_ic observations are
+identical, but the last n_oc observations have experienced fault 1, 2, 3,
+or no fault.
 }
 \description{
-Generates a three dimensional multivariate time series for use in the
-simulation study. Functions exists for linearly related data, non-linearly
-related data, and data with both long term dependencies and non-linear
-relationships. Further, one of three faults can be specified via "f1", "f2",
-or "f3".
+Generates a three dimensional multivariate time series for use in
+simulation studies. Multivariate time series data are generated with
+either linear or non-linear relationships between variables. Further,
+the option to produce nonstationary data by adding a sine wave is included.
+\n Each time a multivariate time series is generated four data frames are
+produced. There are three different faults that are be introduced, and one
+data frame in which no fault is introduced.
 }
