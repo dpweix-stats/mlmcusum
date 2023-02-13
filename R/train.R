@@ -1,21 +1,22 @@
 #' Train methods
 #'
-#' Train the mrfMCUSUM, gruMCUSUM method. Also works for the resMCUSUM method
-#' from Bodnar et al. (2017), which uses a VARMA(1, 1).
-#'
+#' Trains and applies a model based fault detection method for detecting the
+#' changes in a multivariate time series. Can train a GRU, MRF, or VAR
+#' model to pair with either an MCUSUM or MEWMA control chart. Can also apply
+#' a centered and scaled Hotelling's \eqn{T^2} test.
 #'
 #' @param data A multivariate time series in dataframe or matrix form.
-#' @param method An indicator of which model and fault detection method to use. Options are gruMCUSUM, mrfMCUSUM, varMCUSUM, varMEWMA, or htsquare.
+#' @param method An indicator of which model and fault detection method to use. Options include gruMEWMA, mrfMCUSUM, varMEWMA, or htsquare.
 #' @param lags The number of lags of each variable to be included in the design matrix.
 #' @param k A tuning parameter for the MCUSUM, large k results in shorter memory.
 #' @param r A tuning parameter for MEWMA, large r results in shorter memory.
 #' @param center_scale A logical, whether or not to center and scale data before modeling.
 #' @return A named list including the plotting statistic, trained model, residuals, and constants.
-#' @name train
-#' @rdname train
+#' @name train_fd
+#' @rdname train_fd
 #' @export
-train <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
-                  center_scale = TRUE) {
+train_fd <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
+                     center_scale = TRUE) {
   # Constants
   method <- tolower(method)
   l <- ifelse(grepl("var", method), 1, lags)
