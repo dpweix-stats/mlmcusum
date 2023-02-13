@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_python.R
 \name{load_python}
 \alias{load_python}
-\title{Find python conda location}
+\title{Find python conda location (DOESN'T WORK)}
 \usage{
 load_python(path_conda, path_py)
 }
@@ -12,6 +12,7 @@ load_python(path_conda, path_py)
 \item{path_py}{A path for gru_functions.py. This file contains to necessary python code to run the neural networks.}
 }
 \description{
+DOES NOT WORK.
 Uses reticulate to load in the appropriate conda enviornment.
 Will then use source_python to load in python source code for
 using the GRU.
