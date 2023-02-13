@@ -1,4 +1,4 @@
-Package: mlmcusum
+Package: mlmewma
 Title: Detects Changes in Covariance for Multivariate TS
 Version: 0.0.0.9000
 Authors@R: 
