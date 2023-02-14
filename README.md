@@ -1,0 +1,33 @@
+README
+================
+
+## Set Up
+
+This repository contains an `R` package called `mlmewma` (pairing
+Machine Learning models with multivariate exponentially weighted moving
+average (MEWMA) control charts). The functions in this package are used
+in the paper *Monitoring Covariance in Multivariate Time Series:
+Comparing Machine Learning and Statistical Approaches*.
+
+Note that to use the gated recurrent unit (GRU) that the `reticulate`
+package must be installed, along with `Python`, and the modules
+`tensorflow` and `numpy`. Basic usage of the GRU is accomplished through
+the `train_fd` function; however, in depth fine tuning of the GRU model
+will require editing the `gru_functions.py` file.
+
+``` r
+library("reticulate")
+# Custom package https://github.com/dpweix/mlmewma.git
+library("mlmewma")
+
+# Load GRU functions
+path_py <- "~/git/mlmewma/inst/python/gru_functions.py"
+source_python(path_py)
+```
+
+## Functions
+
+| Function name | Description                                                                                                      |
+|---------------|------------------------------------------------------------------------------------------------------------------|
+| `train_fd`    | Used to train models for fault detection and apply fault detection methods to training data.                     |
+| `predict_fd`  | Uses the output of `train_fd` to make predictions on new data and apply fault detection methods to testing data. |
