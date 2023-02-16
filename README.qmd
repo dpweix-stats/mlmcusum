@@ -24,6 +24,6 @@ source_python(path_py)
 ## Functions
 
 | Function name | Description                                                                                                      |
-|--------------|----------------------------------------------------------|
+|---------------|------------------------------------------------------------------------------------------------------------------|
 | `train_fd`    | Used to train models for fault detection and apply fault detection methods to training data.                     |
 | `predict_fd`  | Uses the output of `train_fd` to make predictions on new data and apply fault detection methods to testing data. |
