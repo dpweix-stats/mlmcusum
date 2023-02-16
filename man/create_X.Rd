@@ -4,19 +4,24 @@
 \alias{create_X}
 \title{Create Design Matrix}
 \usage{
-create_X(data, lags)
+create_X(data, lags, data_exog = NULL)
 }
 \arguments{
 \item{data}{A dataframe or matrix of observations.}
 
-\item{lags}{The number of lags of each variable to be included in the design matrix.}
+\item{lags}{The number of lags of each variable to be included in the design
+matrix, should be a scaler to apply to all variables or a vector with entries
+for each column.}
+
+\item{data_exog}{A dataframe or matrix of exogenous observations to be considered
+in addition to the lagged columns of \code{data}.}
 }
 \value{
 A design matrix for training/predictions with the machine learning MCUSUM methods.
 }
 \description{
 A helper function to create a design matrix to be the
-input for the machine learning MCUSUM methods. Requires
+input for the machine learning models Requires
 choosing the number of lags in addition to each variable.
 Potentially later the number of lags could be a vector
 of length p. That way the number of lags could be different

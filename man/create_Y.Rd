@@ -16,7 +16,7 @@ A prediction matrix which can be used for training/testing the machine learning 
 }
 \description{
 A helper function to create a prediction matrix for
-use when training the machine learning MCUSUM methods.
+use when training the machine learning models.
 Requires choosing the number of lags so that the prediction
 and design matrices line up.
 }
