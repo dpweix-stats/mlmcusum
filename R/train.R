@@ -6,7 +6,10 @@
 #' a centered and scaled Hotelling's \eqn{T^2} test.
 #'
 #' @param data A multivariate time series in dataframe or matrix form.
-#' @param method An indicator of which model and fault detection method to use. Options include gruMEWMA, mrfMCUSUM, varMEWMA, or htsquare.
+#' @param method An indicator of which model and fault detection method to use.
+#' Options include gruMEWMA, mrfMCUSUM, varMEWMA, or htsquare.
+#' @param data_exog Any exogenous variables to be considered in model training.
+#' Must be a dataframe or matrix with the same number of rows as `data`.
 #' @param lags The number of lags of each variable to be included in the design matrix.
 #' @param k A tuning parameter for the MCUSUM, large k results in shorter memory.
 #' @param r A tuning parameter for MEWMA, large r results in shorter memory.
@@ -15,20 +18,31 @@
 #' @name train_fd
 #' @rdname train_fd
 #' @export
-train_fd <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
-                     center_scale = TRUE) {
+train_fd <- function(data, method = "gruMEWMA", data_exog = NULL,
+                     lags = 1, k = 1.1, r = .3, center_scale = TRUE) {
   # Constants
   method <- tolower(method)
   l <- ifelse(grepl("var", method), 1, lags)
   p <- ncol(data)
-  mean_sd <- list(mean = colMeans(data),
-                  sd = purrr::map_dbl(data, \(x) sd(x)))
+  mean_sd <- list(mean = apply(data, 2, mean),
+                  sd   = apply(data, 2, sd))
+  mean_sd_exog <- NULL
 
   # Center and Scale
   if(center_scale) {
     data <-
       purrr::pmap_dfc(list(data, mean_sd$mean, mean_sd$sd), \(x, y, z) (x - y)/z) |>
       as.matrix()
+
+    if(!is.null(data_exog)) {
+      mean_sd_exog <- list(mean = apply(data_exog, 2, mean),
+                           sd   = apply(data_exog, 2, sd))
+
+      data_exog <-
+        purrr::pmap_dfc(list(data_exog, mean_sd_exog$mean, mean_sd_exog$sd),
+                        \(x, y, z) (x - y)/z) |>
+        as.matrix()
+    }
   }
 
   # Constant for MCUSUM or MEWMA
@@ -44,7 +58,7 @@ train_fd <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
   }
 
   # Design and Prediction Matrices
-  X <- create_X(data, lags = l)
+  X <- create_X(data, lags = l, data_exog = data_exog)
   Y <- create_Y(data, lags = l)
 
   # Methods: GRU
@@ -110,6 +124,7 @@ train_fd <- function(data, method = "gruMCUSUM", lags = 1, k = 1.1, r = .3,
        residuals = Y - preds,
        center_scale = center_scale,
        mean_sd = mean_sd,
+       mean_sd_exog = mean_sd_exog,
        mu_tau = mu_tau,
        sigma_tau_inv = sigma_tau_inv,
        constants = constants)

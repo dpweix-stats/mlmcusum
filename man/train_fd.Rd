@@ -7,6 +7,7 @@
 train_fd(
   data,
   method = "gruMCUSUM",
+  data_exog = NULL,
   lags = 1,
   k = 1.1,
   r = 0.3,
@@ -16,7 +17,11 @@ train_fd(
 \arguments{
 \item{data}{A multivariate time series in dataframe or matrix form.}
 
-\item{method}{An indicator of which model and fault detection method to use. Options include gruMEWMA, mrfMCUSUM, varMEWMA, or htsquare.}
+\item{method}{An indicator of which model and fault detection method to use.
+Options include gruMEWMA, mrfMCUSUM, varMEWMA, or htsquare.}
+
+\item{data_exog}{Any exogenous variables to be considered in model training.
+Must be a dataframe or matrix with the same number of rows as \code{data}.}
 
 \item{lags}{The number of lags of each variable to be included in the design matrix.}
 
