@@ -6,7 +6,7 @@
 \usage{
 train_fd(
   data,
-  method = "gruMCUSUM",
+  method = "gruMEWMA",
   data_exog = NULL,
   lags = 1,
   k = 1.1,
