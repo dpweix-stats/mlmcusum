@@ -10,7 +10,7 @@
 #' @name predict_fd
 #' @rdname predict_fd
 #' @export
-predict_fd <- function(model, new_data) {
+predict_fd <- function(model, new_data, new_data_exog = NULL) {
 
   # Constants
   l <- model$constants[2]
@@ -20,10 +20,16 @@ predict_fd <- function(model, new_data) {
     new_data <-
       purrr::pmap_dfc(list(new_data, model$mean_sd$mean, model$mean_sd$sd), \(x, y, z) (x-y)/z) |>
       as.matrix()
+
+    if(!is.null(new_data_exog)) {
+      new_data_exog <-
+        purrr::pmap_dfc(list(new_data_exog, model$mean_sd_exog$mean, model$mean_sd_exog$sd), \(x, y, z) (x-y)/z) |>
+        as.matrix()
+    }
   }
 
   # Design and Prediction Matrices
-  X <- create_X(new_data, lags = l)
+  X <- create_X(new_data, lags = l, data_exog = new_data_exog)
   Y <- create_Y(new_data, lags = l)
 
   # Predictions: GRU
