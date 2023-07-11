@@ -4,7 +4,7 @@
 \alias{predict_fd}
 \title{Apply Method}
 \usage{
-predict_fd(model, new_data)
+predict_fd(model, new_data, new_data_exog = NULL)
 }
 \arguments{
 \item{model}{Output from the train_fd function.}

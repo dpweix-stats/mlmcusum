@@ -133,14 +133,14 @@ gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8,
 
   # Generate Training Observations
   dat <-
-    tibble::tibble(x1 = t[index_ic] + rnorm(n_ic, 0, .1),
+    tibble::tibble(x1 = exp(t[index_ic]) + rnorm(n_ic, 0, .1),
                    x2 = t[index_ic]^2 - 3*t[index_ic] + rnorm(n_ic, 0, .1),
                    x3 = -t[index_ic]^3 + 3*t[index_ic]^2 + rnorm(n_ic, 0, .1))
 
   # Generate Testing Observations
   dat_nf <-
     dplyr::bind_rows(dat,
-                     tibble::tibble(x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                     tibble::tibble(x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                                     x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
                                     x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, .1))
     )
@@ -148,7 +148,7 @@ gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8,
   dat_f1 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, a_1*.1),  # increase variance
                        x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, .1))
     )
@@ -156,7 +156,7 @@ gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8,
   dat_f2 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
                        x3 = -2*t[index_oc]^3 + 4.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
     )
@@ -164,7 +164,7 @@ gen_dat_nlr <- function(n_ic = 1500, n_oc = 500, phi = .8,
   dat_f3 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, a_2*.1), # increased variance
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, a_2*.1), # increased variance
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, a_2*.1), # for all
                        x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, a_2*.1)) # variables
     )
@@ -192,14 +192,14 @@ gen_dat_ltm <- function(n_ic = 1500, n_oc = 500, phi = .8, sin_scale = 1.5,
 
   # Generate Training Observations
   dat <-
-    tibble::tibble(x1 = t[index_ic] + rnorm(n_ic, 0, .1),
+    tibble::tibble(x1 = exp(t[index_ic]) + rnorm(n_ic, 0, .1),
                    x2 = t[index_ic]^2 - 3*t[index_ic] + rnorm(n_ic, 0, .1),
                    x3 = -t[index_ic]^3 + 3*t[index_ic]^2 + rnorm(n_ic, 0, .1))
 
   # Generate Testing Observations
   dat_nf <-
     dplyr::bind_rows(dat,
-                     tibble::tibble(x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                     tibble::tibble(x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                                     x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
                                     x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, .1))
     )
@@ -207,14 +207,14 @@ gen_dat_ltm <- function(n_ic = 1500, n_oc = 500, phi = .8, sin_scale = 1.5,
   dat_f1 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, a_1*.1),  # increase variance
                        x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, .1))
     )
   dat_f2 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, .1),
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, .1),
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, .1),
                        x3 = -2*t[index_oc]^3 + 4.5*t[index_oc]^2 + rnorm(n_oc, 0, .1)) # alter x3
     )
@@ -222,7 +222,7 @@ gen_dat_ltm <- function(n_ic = 1500, n_oc = 500, phi = .8, sin_scale = 1.5,
   dat_f3 <-
     dplyr::bind_rows(dat,
                      tibble::tibble(
-                       x1 = t[index_oc] + rnorm(n_oc, 0, a_2*.1), # increased variance
+                       x1 = exp(t[index_oc]) + rnorm(n_oc, 0, a_2*.1), # increased variance
                        x2 = t[index_oc]^2 - 3*t[index_oc] + rnorm(n_oc, 0, a_2*.1), # for all
                        x3 = -t[index_oc]^3 + 3*t[index_oc]^2 + rnorm(n_oc, 0, a_2*.1)) # variables
     )
