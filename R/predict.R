@@ -107,8 +107,6 @@ predict_fd <- function(model, new_data, new_data_exog = NULL) {
     pstat <- calc_D(tau, model$mu_tau, model$sigma_tau_inv)
   }
 
-
-
   # Return
   list(pstat = pstat,
        residuals = residuals)
