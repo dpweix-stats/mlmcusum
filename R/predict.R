@@ -10,7 +10,7 @@
 #' @name predict_fd
 #' @rdname predict_fd
 #' @export
-predict_fd <- function(model, new_data, new_data_exog = NULL) {
+predict_fd <- function(model, new_data, new_data_exog = NULL, pstat0 = NULL) {
 
   # Constants
   l <- model$constants[2]
@@ -99,8 +99,13 @@ predict_fd <- function(model, new_data, new_data_exog = NULL) {
     # Get D
     D <- calc_D(tau, model$mu_tau, model$sigma_tau_inv)
 
+    # Set default pstat0
+    if(is.null(pstat0)) {
+      pstat0 <- dplyr::last(model$pstat)
+    }
+
     # Plotting Statistic
-    pstat <- calc_PStat_MEWMA(model$constants[1], D, model$constants[3], dplyr::last(model$pstat))
+    pstat <- calc_PStat_MEWMA(model$constants[1], D, model$constants[3], pstat0)
   } else if(grepl("htsquare", model$method)) {
 
     pstat <- calc_D(tau, model$mu_tau, model$sigma_tau_inv)
