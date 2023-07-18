@@ -4,7 +4,7 @@
 \alias{calc_PStat_MEWMA}
 \title{Calculate plotting statistic}
 \usage{
-calc_PStat_MEWMA(r, D, p)
+calc_PStat_MEWMA(r, D, p, pstat0 = (p * (p + 1)/2))
 }
 \arguments{
 \item{r}{The weight of the current observation. The previous observation has weight 1-r.}
@@ -12,6 +12,8 @@ calc_PStat_MEWMA(r, D, p)
 \item{D}{The Mahalanobis distance of each tau vector.}
 
 \item{p}{The number of variables in your multivariate time series.}
+
+\item{pstat0}{An initial value for the plotting statistic}
 }
 \value{
 The plotting statistic which determines if the process is considered in-control or out-of-control at a given observation.
