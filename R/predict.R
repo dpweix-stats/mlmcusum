@@ -83,7 +83,6 @@ predict_fd <- function(model, new_data, new_data_exog = NULL) {
     preds <- matrix(0, nrow = nrow(Y), ncol = ncol(Y))
   }
 
-
   # Get Residuals
   residuals = Y - preds
 
@@ -101,7 +100,7 @@ predict_fd <- function(model, new_data, new_data_exog = NULL) {
     D <- calc_D(tau, model$mu_tau, model$sigma_tau_inv)
 
     # Plotting Statistic
-    pstat <- calc_PStat_MEWMA(model$constants[1], D, model$constants[3])
+    pstat <- calc_PStat_MEWMA(model$constants[1], D, model$constants[3], dplyr::last(model$pstat))
   } else if(grepl("htsquare", model$method)) {
 
     pstat <- calc_D(tau, model$mu_tau, model$sigma_tau_inv)

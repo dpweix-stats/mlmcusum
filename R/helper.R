@@ -120,14 +120,15 @@ calc_PStat <- function(S, sigma_tau_inv) {
 #' @param r The weight of the current observation. The previous observation has weight 1-r.
 #' @param D The Mahalanobis distance of each tau vector.
 #' @param p The number of variables in your multivariate time series.
+#' @param pstat0 An initial value for the plotting statistic
 #' @return The plotting statistic which determines if the process is considered in-control or out-of-control at a given observation.
 #' @export
-calc_PStat_MEWMA <- function(r, D, p) {
+calc_PStat_MEWMA <- function(r, D, p, pstat0  = (p*(p+1)/2)) {
   N <- length(D)
 
   # First Entry
   pstat <- vector(mode = "numeric", length = N)
-  pstat[1] <- r*D[1] + (1-r)*(p*(p+1)/2)
+  pstat[1] <- r*D[1] + (1-r)*pstat0
 
   # Other Entries
   2:N |>
